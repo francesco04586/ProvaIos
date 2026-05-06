@@ -133,7 +133,7 @@ struct ExportManager {
                 let plate       = vehicle?.plate ?? "—"
                 let daysStr     = days < 0 ? "\(abs(days))g fa" : "\(days)g"
 
-                let values: [(String, NSAttributedString.Key: Any)] = [
+                let values: [(String, [NSAttributedString.Key: Any])] = [
                     (vehicleName,                   rowAttrs),
                     (plate,                          rowAttrs),
                     (deadline.type.rawValue,         rowAttrs),
