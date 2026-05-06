@@ -4,6 +4,8 @@ struct DeadlineListView: View {
     @EnvironmentObject var viewModel: FleetViewModel
     @State private var selectedType: DeadlineType? = nil
     @State private var showCompleted = false
+    @State private var showExportSheet = false
+    @State private var pdfData: Data? = nil
 
     private var filteredDeadlines: [Deadline] {
         var result = viewModel.allDeadlinesSorted()
@@ -59,20 +61,46 @@ struct DeadlineListView: View {
             }
             .navigationTitle("Scadenze")
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         showCompleted.toggle()
                     } label: {
-                        Label(
-                            showCompleted ? "Nascondi completate" : "Mostra completate",
-                            systemImage: showCompleted ? "eye.slash" : "eye"
-                        )
-                        .labelStyle(.iconOnly)
+                        Image(systemName: showCompleted ? "eye.slash" : "eye")
                     }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        pdfData = ExportManager.generateDeadlineReport(
+                            vehicles: viewModel.vehicles,
+                            deadlines: viewModel.allDeadlinesSorted()
+                        )
+                        showExportSheet = true
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    .disabled(viewModel.deadlines.isEmpty)
+                }
+            }
+            .sheet(isPresented: $showExportSheet) {
+                if let data = pdfData {
+                    ShareSheet(items: [data])
                 }
             }
         }
     }
+}
+
+// MARK: - Share Sheet (UIKit bridge)
+
+struct ShareSheet: UIViewControllerRepresentable {
+    let items: [Any]
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        let controller = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        return controller
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 // MARK: - Filter Chip
@@ -112,7 +140,6 @@ struct AllDeadlineRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            // Status indicator bar
             RoundedRectangle(cornerRadius: 3)
                 .fill(deadline.status.color)
                 .frame(width: 4, height: 50)

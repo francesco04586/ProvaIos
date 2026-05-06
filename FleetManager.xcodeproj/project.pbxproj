@@ -20,6 +20,7 @@
 		BB00000B000000000000000A /* AddDeadlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000B000000000000000A /* AddDeadlineView.swift */; };
 		BB00000C000000000000000A /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000C000000000000000A /* NotificationManager.swift */; };
 		BB00000D000000000000000A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA00000D000000000000000A /* Assets.xcassets */; };
+		BB00000E000000000000000A /* ExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000010000000000000000A /* ExportManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		AA00000A000000000000000A /* DeadlineListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineListView.swift; sourceTree = "<group>"; };
 		AA00000B000000000000000A /* AddDeadlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDeadlineView.swift; sourceTree = "<group>"; };
 		AA00000C000000000000000A /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		AA000010000000000000000A /* ExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportManager.swift; sourceTree = "<group>"; };
 		AA00000D000000000000000A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA00000E000000000000000A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA00000F000000000000000A /* FleetManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FleetManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				AA00000C000000000000000A /* NotificationManager.swift */,
+				AA000010000000000000000A /* ExportManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -201,6 +204,7 @@
 				BB00000A000000000000000A /* DeadlineListView.swift in Sources */,
 				BB00000B000000000000000A /* AddDeadlineView.swift in Sources */,
 				BB00000C000000000000000A /* NotificationManager.swift in Sources */,
+				BB00000E000000000000000A /* ExportManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

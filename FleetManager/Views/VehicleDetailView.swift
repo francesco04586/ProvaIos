@@ -5,6 +5,7 @@ struct VehicleDetailView: View {
     @EnvironmentObject var viewModel: FleetViewModel
     @State private var showingEditVehicle = false
     @State private var showingAddDeadline = false
+    @State private var deadlineToEdit: Deadline? = nil
 
     private var vehicleDeadlines: [Deadline] {
         viewModel.deadlines(for: vehicle)
@@ -38,7 +39,9 @@ struct VehicleDetailView: View {
                         .italic()
                 } else {
                     ForEach(vehicleDeadlines) { deadline in
-                        DeadlineDetailRow(deadline: deadline)
+                        DeadlineDetailRow(deadline: deadline) {
+                            deadlineToEdit = deadline
+                        }
                     }
                     .onDelete { offsets in
                         viewModel.deleteDeadlines(at: offsets, for: vehicle)
@@ -70,6 +73,9 @@ struct VehicleDetailView: View {
         .sheet(isPresented: $showingAddDeadline) {
             AddDeadlineView(vehicleId: vehicle.id)
         }
+        .sheet(item: $deadlineToEdit) { deadline in
+            AddDeadlineView(vehicleId: vehicle.id, deadline: deadline)
+        }
     }
 }
 
@@ -99,6 +105,7 @@ struct InfoRow: View {
 
 struct DeadlineDetailRow: View {
     let deadline: Deadline
+    let onEdit: () -> Void
     @EnvironmentObject var viewModel: FleetViewModel
 
     var body: some View {
@@ -135,14 +142,24 @@ struct DeadlineDetailRow: View {
 
             Spacer()
 
-            VStack(alignment: .trailing, spacing: 6) {
+            VStack(alignment: .trailing, spacing: 8) {
                 StatusBadge(status: deadline.status)
-                Button(action: { viewModel.toggleCompleted(deadline) }) {
-                    Image(systemName: deadline.isCompleted ? "checkmark.circle.fill" : "circle")
-                        .foregroundColor(deadline.isCompleted ? .green : .gray)
-                        .font(.title3)
+
+                HStack(spacing: 12) {
+                    Button(action: onEdit) {
+                        Image(systemName: "pencil.circle")
+                            .foregroundColor(.blue)
+                            .font(.title3)
+                    }
+                    .buttonStyle(.plain)
+
+                    Button(action: { viewModel.toggleCompleted(deadline) }) {
+                        Image(systemName: deadline.isCompleted ? "checkmark.circle.fill" : "circle")
+                            .foregroundColor(deadline.isCompleted ? .green : .gray)
+                            .font(.title3)
+                    }
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
             }
         }
         .padding(.vertical, 4)

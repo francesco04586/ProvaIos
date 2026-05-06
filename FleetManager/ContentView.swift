@@ -3,8 +3,16 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var viewModel: FleetViewModel
 
-    var alertCount: Int {
+    private var urgentDeadlinesCount: Int {
         viewModel.expiredDeadlines.count + viewModel.criticalDeadlines.count
+    }
+
+    private var vehiclesWithAlertsCount: Int {
+        viewModel.vehicles.filter { vehicle in
+            viewModel.deadlines(for: vehicle).contains {
+                $0.status == .expired || $0.status == .critical
+            }
+        }.count
     }
 
     var body: some View {
@@ -18,13 +26,13 @@ struct ContentView: View {
                 .tabItem {
                     Label("Automezzi", systemImage: "car.fill")
                 }
-                .badge(viewModel.vehicles.count > 0 ? viewModel.vehicles.count : 0)
+                .badge(vehiclesWithAlertsCount > 0 ? vehiclesWithAlertsCount : 0)
 
             DeadlineListView()
                 .tabItem {
                     Label("Scadenze", systemImage: "calendar.badge.exclamationmark")
                 }
-                .badge(alertCount > 0 ? alertCount : 0)
+                .badge(urgentDeadlinesCount > 0 ? urgentDeadlinesCount : 0)
         }
     }
 }
