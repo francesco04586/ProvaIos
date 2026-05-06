@@ -86,7 +86,7 @@ struct ExportManager {
                 .foregroundColor: UIColor.white
             ]
             UIColor.systemBlue.setFill()
-            CGRect(x: left, y: y, width: width, height: 18).fill()
+            UIRectFill(CGRect(x: left, y: y, width: width, height: 18))
             for (title, x, _) in cols {
                 title.draw(at: CGPoint(x: x, y: y + 4), withAttributes: hdrAttrs)
             }
@@ -107,7 +107,7 @@ struct ExportManager {
                 // Alternating row background
                 if idx % 2 == 0 {
                     UIColor(white: 0.96, alpha: 1).setFill()
-                    CGRect(x: left, y: y, width: width, height: 18).fill()
+                    UIRectFill(CGRect(x: left, y: y, width: width, height: 18))
                 }
 
                 let vehicle = vehicles.first { $0.id == deadline.vehicleId }
